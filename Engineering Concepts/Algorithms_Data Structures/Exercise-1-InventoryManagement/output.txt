@@ -1,0 +1,55 @@
+Product Added Successfully.
+
+Product Added Successfully.
+
+Product Added Successfully.
+
+========== INVENTORY ==========
+
+ID : 101
+Name : Laptop
+Quantity : 15
+Price : ₹65000.0
+
+ID : 102
+Name : Keyboard
+Quantity : 50
+Price : ₹1200.0
+
+ID : 103
+Name : Mouse
+Quantity : 100
+Price : ₹700.0
+
+Product Updated Successfully.
+
+========== INVENTORY ==========
+
+ID : 101
+Name : Laptop
+Quantity : 15
+Price : ₹65000.0
+
+ID : 102
+Name : Mechanical Keyboard
+Quantity : 40
+Price : ₹1800.0
+
+ID : 103
+Name : Mouse
+Quantity : 100
+Price : ₹700.0
+
+Product Deleted Successfully.
+
+========== INVENTORY ==========
+
+ID : 101
+Name : Laptop
+Quantity : 15
+Price : ₹65000.0
+
+ID : 102
+Name : Mechanical Keyboard
+Quantity : 40
+Price : ₹1800.0

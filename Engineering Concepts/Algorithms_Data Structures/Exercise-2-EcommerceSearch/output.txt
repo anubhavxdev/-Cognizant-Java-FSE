@@ -1,0 +1,31 @@
+========= LINEAR SEARCH =========
+
+Searching Product ID : 103
+
+Product Found
+
+ID : 103
+
+Name : Keyboard
+
+Category : Electronics
+
+===============================
+
+========= BINARY SEARCH =========
+
+Searching Product ID : 104
+
+Product Found
+
+ID : 104
+
+Name : Monitor
+
+Category : Electronics
+
+===============================
+
+Searching Product ID : 999
+
+Product Not Found

@@ -1,0 +1,83 @@
+Task Added Successfully.
+
+Task Added Successfully.
+
+Task Added Successfully.
+
+Task Added Successfully.
+
+========= TASK LIST =========
+
+Task ID : 101
+
+Task Name : Complete Assignment
+
+Status : Pending
+
+------------------------
+
+Task ID : 102
+
+Task Name : Learn Java
+
+Status : In Progress
+
+------------------------
+
+Task ID : 103
+
+Task Name : Prepare Presentation
+
+Status : Pending
+
+------------------------
+
+Task ID : 104
+
+Task Name : Submit Report
+
+Status : Completed
+
+============================
+
+Searching Task : 102
+
+Task Found.
+
+Task ID : 102
+
+Task Name : Learn Java
+
+Status : In Progress
+
+Task Deleted Successfully.
+
+========= UPDATED TASK LIST =========
+
+Task ID : 101
+
+Task Name : Complete Assignment
+
+Status : Pending
+
+------------------------
+
+Task ID : 102
+
+Task Name : Learn Java
+
+Status : In Progress
+
+------------------------
+
+Task ID : 104
+
+Task Name : Submit Report
+
+Status : Completed
+
+============================
+
+Searching Task : 999
+
+Task Not Found.

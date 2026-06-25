@@ -1,0 +1,73 @@
+========= LIBRARY BOOKS =========
+
+Book ID : 101
+
+Title : Clean Code
+
+Author : Robert C. Martin
+
+----------------------------
+
+Book ID : 102
+
+Title : Design Patterns
+
+Author : Gang of Four
+
+----------------------------
+
+Book ID : 103
+
+Title : Effective Java
+
+Author : Joshua Bloch
+
+----------------------------
+
+Book ID : 104
+
+Title : Java Complete Reference
+
+Author : Herbert Schildt
+
+----------------------------
+
+Book ID : 105
+
+Title : Thinking in Java
+
+Author : Bruce Eckel
+
+===============================
+
+========= LINEAR SEARCH =========
+
+Searching: Effective Java
+
+Book Found
+
+Book ID : 103
+
+Title : Effective Java
+
+Author : Joshua Bloch
+
+===============================
+
+========= BINARY SEARCH =========
+
+Searching: Java Complete Reference
+
+Book Found
+
+Book ID : 104
+
+Title : Java Complete Reference
+
+Author : Herbert Schildt
+
+===============================
+
+Searching: Python Programming
+
+Book Not Found.

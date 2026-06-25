@@ -1,0 +1,35 @@
+========= FINANCIAL FORECAST =========
+
+Investment : ₹10000
+
+Growth Rate : 10%
+
+Years : 5
+
+Predicted Value : ₹16105.10
+
+-----------------------------------------
+
+Investment : ₹50000
+
+Growth Rate : 8%
+
+Years : 10
+
+Predicted Value : ₹107946.25
+
+-----------------------------------------
+
+Investment : ₹75000
+
+Growth Rate : 12%
+
+Years : 15
+
+Predicted Value : ₹410000+
+
+-----------------------------------------
+
+Years = 0
+
+Predicted Value : Current Investment

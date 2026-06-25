@@ -1,0 +1,99 @@
+Employee Added Successfully.
+
+Employee Added Successfully.
+
+Employee Added Successfully.
+
+Employee Added Successfully.
+
+========= EMPLOYEE LIST =========
+
+Employee ID : 101
+
+Name : Rahul
+
+Position : Software Engineer
+
+Salary : ₹75000
+
+--------------------------
+
+Employee ID : 102
+
+Name : Priya
+
+Position : HR Manager
+
+Salary : ₹60000
+
+--------------------------
+
+Employee ID : 103
+
+Name : Aman
+
+Position : QA Engineer
+
+Salary : ₹55000
+
+--------------------------
+
+Employee ID : 104
+
+Name : Neha
+
+Position : Project Manager
+
+Salary : ₹90000
+
+=================================
+
+Searching Employee : 102
+
+Employee Found
+
+Employee ID : 102
+
+Name : Priya
+
+Position : HR Manager
+
+Salary : ₹60000
+
+Employee Deleted Successfully.
+
+========= UPDATED LIST =========
+
+Employee ID : 101
+
+Name : Rahul
+
+Position : Software Engineer
+
+Salary : ₹75000
+
+--------------------------
+
+Employee ID : 102
+
+Name : Priya
+
+Position : HR Manager
+
+Salary : ₹60000
+
+--------------------------
+
+Employee ID : 104
+
+Name : Neha
+
+Position : Project Manager
+
+Salary : ₹90000
+
+=================================
+
+Searching Employee : 999
+
+Employee Not Found.
