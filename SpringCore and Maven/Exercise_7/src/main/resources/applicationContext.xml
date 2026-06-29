@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Shareable repository bean dependency -->
+    <bean id="bookRepository" class="com.library.repository.BookRepository" />
+
+    <!-- 
+       A. CONSTRUCTOR INJECTION DEMO:
+       Uses constructor-arg to pass dependency during object instantiation.
+    -->
+    <bean id="bookServiceConstructor" class="com.library.service.BookService">
+        <constructor-arg ref="bookRepository" />
+    </bean>
+
+    <!-- 
+       B. SETTER INJECTION DEMO:
+       Uses property element to pass dependency via setter methods.
+    -->
+    <bean id="bookServiceSetter" class="com.library.service.BookService">
+        <property name="bookRepository" ref="bookRepository" />
+    </bean>
+
+</beans>
