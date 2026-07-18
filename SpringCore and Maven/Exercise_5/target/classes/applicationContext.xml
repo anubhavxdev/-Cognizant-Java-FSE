@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 
+       Singleton scope (Default):
+       The container creates exactly one instance of this bean during container startup (eager loading).
+    -->
+    <bean id="bookRepository" class="com.library.repository.BookRepository" scope="singleton" />
+
+    <!-- 
+       Prototype scope:
+       The container creates a brand new instance of this bean every time it is requested via context.getBean().
+    -->
+    <bean id="bookService" class="com.library.service.BookService" scope="prototype">
+        <property name="bookRepository" ref="bookRepository" />
+    </bean>
+
+</beans>
