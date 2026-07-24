@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # Route 1: Customer Service with Path Rewriting and Rate Limiting
+        # Inbound path: /api/v1/customers/** -> Rewritten to: /customers/**
+        - id: customer-service-route
+          uri: lb://customer-service
+          predicates:
+            - Path=/api/v1/customers/**
+          filters:
+            - RewritePath=/api/v1/customers/(?<segment>.*), /customers/\${segment}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 5
+                redis-rate-limiter.burstCapacity: 10
+                key-resolver: "#{@ipKeyResolver}"
+            - AddResponseHeader=X-Cache-Control, max-age=60
+
+        # Route 2: Billing Service with Path Rewriting and Caching Header
+        # Inbound path: /api/v1/billing/** -> Rewritten to: /billing/**
+        - id: billing-service-route
+          uri: lb://billing-service
+          predicates:
+            - Path=/api/v1/billing/**
+          filters:
+            - RewritePath=/api/v1/billing/(?<segment>.*), /billing/\${segment}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                key-resolver: "#{@ipKeyResolver}"
+            - AddResponseHeader=Cache-Control, public, max-age=300
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, gateway, metrics

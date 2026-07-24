@@ -1,0 +1,19 @@
+spring:
+  security:
+    jwt:
+      # Secret key used to sign and verify HS256 JWTs.
+      # IMPORTANT: In production, use a strong random key (min 256 bits for HS256)
+      # and store it in a secrets manager (e.g., AWS Secrets Manager, Vault).
+      # Do NOT hard-code production secrets in source control.
+      secret: YOUR_VERY_LONG_AND_SECURE_SECRET_KEY_REPLACE_IN_PRODUCTION_MIN_256BITS
+
+      # Token expiry in milliseconds (default: 3600000 = 1 hour)
+      expiration-ms: 3600000
+
+server:
+  port: 8082
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.cognizant.jwtauth: DEBUG

@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    # H2 in-memory DB for development/testing
+    url: jdbc:h2:mem:userdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # ── MySQL (production) ─────────────────────────────────────────────
+  # datasource:
+  #   url: jdbc:mysql://localhost:3306/userdb?useSSL=false&serverTimezone=UTC
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
+  #   username: root
+  #   password: secret
+
+  # ── PostgreSQL (production) ────────────────────────────────────────
+  # datasource:
+  #   url: jdbc:postgresql://localhost:5432/userdb
+  #   driver-class-name: org.postgresql.Driver
+  #   username: postgres
+  #   password: secret
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # use 'validate' or 'none' in production
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+        # For MySQL:  org.hibernate.dialect.MySQLDialect
+        # For PgSQL:  org.hibernate.dialect.PostgreSQLDialect
+
+  h2:
+    console:
+      enabled: true           # http://localhost:8081/h2-console
+      path: /h2-console
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+
+logging:
+  level:
+    com.cognizant.userservice: DEBUG
+    org.springframework.web: INFO

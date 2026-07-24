@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: payment-service
+
+server:
+  port: 8087
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      paymentGateway:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2000ms # 2 seconds threshold
+        waitDurationInOpenState: 10000ms  # Stay OPEN for 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+  timelimiter:
+    instances:
+      paymentGateway:
+        timeoutDuration: 3s
+
+  retry:
+    instances:
+      paymentGateway:
+        maxAttempts: 2
+        waitDuration: 500ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, circuitbreakers, circuitbreakerevents
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+logging:
+  level:
+    com.cognizant.paymentservice: DEBUG
+    io.github.resilience4j: INFO

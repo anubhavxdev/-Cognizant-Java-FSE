@@ -1,0 +1,141 @@
+spring:
+  application:
+    name: resilient-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # ── Route with Circuit Breaker + Retry ────────────────────────────
+        - id: resilient_example_route
+          uri: lb://example-service
+          predicates:
+            - Path=/example/**
+          filters:
+            - StripPrefix=1
+            # Circuit Breaker filter – trips on failures and redirects to /fallback
+            - name: CircuitBreaker
+              args:
+                name: exampleCircuitBreaker
+                fallbackUri: forward:/fallback/example
+
+        # ── Route with Retry ────────────────────────────────────────────
+        - id: retry_route
+          uri: lb://retry-service
+          predicates:
+            - Path=/retry/**
+          filters:
+            - StripPrefix=1
+            - name: Retry
+              args:
+                retries: 3
+                statuses: SERVICE_UNAVAILABLE, GATEWAY_TIMEOUT
+                methods: GET
+                backoff:
+                  firstBackoff: 100ms
+                  maxBackoff: 500ms
+                  factor: 2
+                  basedOnPreviousValue: false
+
+        # ── Route with Rate Limiter ──────────────────────────────────────
+        - id: rate_limited_route
+          uri: lb://api-service
+          predicates:
+            - Path=/api/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                # Uses in-memory rate limiting (default key: remote IP address)
+                # For production use Redis: spring-boot-starter-data-redis-reactive
+                redis-rate-limiter.replenishRate: 10    # requests per second
+                redis-rate-limiter.burstCapacity: 20    # max burst
+                redis-rate-limiter.requestedTokens: 1
+            - name: CircuitBreaker
+              args:
+                name: apiCircuitBreaker
+                fallbackUri: forward:/fallback/api
+
+        # ── Route with Timeout ───────────────────────────────────────────
+        - id: timeout_route
+          uri: lb://slow-service
+          predicates:
+            - Path=/slow/**
+          filters:
+            - StripPrefix=1
+            - name: CircuitBreaker
+              args:
+                name: timeoutCircuitBreaker
+                fallbackUri: forward:/fallback/timeout
+          metadata:
+            # Per-route HTTP timeout override
+            connect-timeout: 1000   # ms
+            response-timeout: 5000  # ms
+
+# ── Resilience4j Circuit Breaker config ──────────────────────────────────
+resilience4j:
+  circuitbreaker:
+    instances:
+      exampleCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 10           # window of 10 calls
+        failureRateThreshold: 50        # open if ≥ 50% fail
+        waitDurationInOpenState: 10s    # stay open for 10 seconds
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        minimumNumberOfCalls: 5         # min calls before evaluating failure rate
+        slowCallRateThreshold: 50       # treat calls > slowCallDurationThreshold as slow
+        slowCallDurationThreshold: 2s
+
+      apiCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        failureRateThreshold: 40
+        waitDurationInOpenState: 15s
+        minimumNumberOfCalls: 5
+
+      timeoutCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        failureRateThreshold: 60
+        waitDurationInOpenState: 30s
+
+  timelimiter:
+    instances:
+      exampleCircuitBreaker:
+        timeoutDuration: 3s      # cancel request if no response in 3 seconds
+        cancelRunningFuture: true
+      apiCircuitBreaker:
+        timeoutDuration: 5s
+      timeoutCircuitBreaker:
+        timeoutDuration: 2s
+
+  retry:
+    instances:
+      exampleRetry:
+        maxAttempts: 3
+        waitDuration: 500ms
+        retryExceptions:
+          - java.net.ConnectException
+          - java.util.concurrent.TimeoutException
+
+server:
+  port: 8080
+
+# ── Actuator – expose Resilience4j health + metrics ──────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, gateway, circuitbreakers, circuitbreakerevents, prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    io.github.resilience4j: DEBUG
+    com.cognizant.resilientgateway: DEBUG

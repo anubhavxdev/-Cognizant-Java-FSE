@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: load-balanced-gateway
+
+  cloud:
+    gateway:
+      # ── Load-balanced routes ─────────────────────────────────────────────
+      # lb:// scheme tells the Gateway to resolve the service name through
+      # Spring Cloud LoadBalancer (which queries Eureka or a static list).
+      routes:
+        # Route 1: Random load-balanced route to "example-service"
+        - id: load_balanced_route
+          uri: lb://example-service
+          predicates:
+            - Path=/loadbalanced/**
+          filters:
+            - StripPrefix=1
+            - AddResponseHeader=X-Load-Balanced, true
+
+        # Route 2: Another load-balanced route demonstrating multiple predicates
+        - id: api_service_route
+          uri: lb://api-service
+          predicates:
+            - Path=/api/**
+            - Method=GET,POST
+          filters:
+            - StripPrefix=0
+            - AddRequestHeader=X-Gateway-Source, load-balanced-gateway
+
+      # ── Discovery Locator ────────────────────────────────────────────────
+      # When enabled, automatically creates routes for every service registered
+      # in Eureka: /EXAMPLE-SERVICE/** → lb://example-service
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true  # use lowercase service names in URLs
+
+    # ── LoadBalancer config ──────────────────────────────────────────────
+    loadbalancer:
+      # Enable Caffeine-based caching of service instance lists (recommended)
+      cache:
+        enabled: true
+        ttl: 30s
+        capacity: 256
+
+    # ── Eureka client (comment out if not using Eureka) ─────────────────
+    # If you have no Eureka server, define static instances in:
+    # spring.cloud.loadbalancer.clients.<serviceId>.instances
+    # (see StaticInstancesConfig.java for the programmatic approach)
+
+  # ── Static instance list (no-Eureka fallback) ────────────────────────
+  # Uncomment and adjust if you are running without a Eureka server:
+  #
+  # loadbalancer:
+  #   clients:
+  #     example-service:
+  #       instances:
+  #         - instance-id: instance1
+  #           uri: http://localhost:8091
+  #         - instance-id: instance2
+  #           uri: http://localhost:8092
+
+# ── Eureka server location ────────────────────────────────────────────────
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: false   # Gateway itself does NOT register
+    fetch-registry: true          # Gateway DOES fetch the registry
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway, health, info, loadbalancer
+  endpoint:
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.loadbalancer: DEBUG
+    com.cognizant.lbgateway: DEBUG

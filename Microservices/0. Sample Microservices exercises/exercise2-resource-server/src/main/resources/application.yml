@@ -1,0 +1,25 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Replace with the actual issuer URI of your Authorization Server.
+          # Spring Boot will auto-discover the JWKS endpoint from:
+          #   {issuer-uri}/.well-known/openid-configuration
+          #
+          # Example providers:
+          #   Keycloak : http://localhost:9090/realms/myrealm
+          #   Okta     : https://<tenant>.okta.com/oauth2/default
+          #   Auth0    : https://<tenant>.auth0.com/
+          issuer-uri: https://issuer.example.com
+
+          # Alternatively, you can specify the JWKS URI directly:
+          # jwk-set-uri: https://issuer.example.com/.well-known/jwks.json
+
+server:
+  port: 8081
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: INFO
