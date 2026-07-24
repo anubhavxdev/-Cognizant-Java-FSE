@@ -1,0 +1,3 @@
+Welcome to Git Hands-On Learning!
+This is a sample file created for Git HOL 1.
+Git configuration and repository setup completed successfully.
