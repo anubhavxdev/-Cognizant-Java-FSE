@@ -1,0 +1,13 @@
+.card {
+  width: 350px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: green;
+}
