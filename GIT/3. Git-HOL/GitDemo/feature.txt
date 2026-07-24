@@ -1,0 +1,3 @@
+Feature Implementation on GitNewBranch
+This file was created on GitNewBranch and merged into master/main.
+Added feature details: User Authentication & Feature Toggle logic.
