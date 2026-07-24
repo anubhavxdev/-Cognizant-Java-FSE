@@ -1,0 +1,11 @@
+# Ignore all files with .log extension
+*.log
+
+# Ignore log directories
+logs/
+log/
+
+# Ignore temporary and merge backup files created by P4Merge / Git mergetool
+*.tmp
+*.orig
+*.BAK

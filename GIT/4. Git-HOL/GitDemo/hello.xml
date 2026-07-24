@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appSettings>
+        <!-- Conflict resolved: Integrated both master and GitWork configurations -->
+        <setting name="ApplicationName" value="GitDemo Enterprise" />
+        <setting name="Environment" value="Production" />
+        <setting name="MaxConnections" value="100" />
+        <setting name="Timeout" value="3000" />
+        <setting name="EnableLogging" value="true" />
+    </appSettings>
+</configuration>
